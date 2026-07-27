@@ -110,7 +110,7 @@ class AgentSearchIT extends ApicurioRegistryBaseIT {
                 .baseUri(getRegistryBaseUrl())
                 .contentType(ContentType.JSON)
                 .body("""
-                        { "query": "translates languages", "limit": 10, "offset": 0 }
+                        { "query": "high accuracy", "limit": 10, "offset": 0 }
                         """)
                 .post("/.well-known/agents/search")
                 .then()

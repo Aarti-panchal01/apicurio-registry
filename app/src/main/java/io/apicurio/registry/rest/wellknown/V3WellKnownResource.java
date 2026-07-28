@@ -48,9 +48,9 @@ public class V3WellKnownResource implements WellResource {
     }
 
     @Override
-    public AgentSearchResults searchAgents(String name, List<String> skill,
-            List<String> capability, List<String> inputMode, List<String> outputMode,
-            BigInteger offset, BigInteger limit) {
+    public AgentSearchResults searchAgents(BigInteger offset, BigInteger limit, String name,
+            List<String> skill, List<String> capability, List<String> inputMode,
+            List<String> outputMode) {
         return delegate.searchAgents(name, skill, capability, inputMode, outputMode,
                 offset.intValue(), limit.intValue());
     }
@@ -76,9 +76,9 @@ public class V3WellKnownResource implements WellResource {
     }
 
     @Override
-    public McpToolSearchResults searchMcpTools(String name, List<String> parameter,
-            BigInteger offset, BigInteger limit) {
-        return delegate.searchMcpTools(name, parameter, offset.intValue(), limit.intValue());
+    public McpToolSearchResults searchMcpTools(BigInteger offset, BigInteger limit, String name,
+            List<String> parameter) {
+        return delegate.searchMcpTools(name, parameter, offset.toString(), limit.toString());
     }
 
     @Override

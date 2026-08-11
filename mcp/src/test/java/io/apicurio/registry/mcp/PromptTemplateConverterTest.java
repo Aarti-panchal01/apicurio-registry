@@ -92,6 +92,31 @@ class PromptTemplateConverterTest {
                 converter.renderTemplate("{{axb}}", Map.of("a.b", "boom")));
     }
 
+    /**
+     * Argument names are supplied by the caller and are not validated against the template's
+     * declared variables, so they must never be treated as a regular expression. An argument
+     * named <code>.*</code> must not match placeholders it does not name.
+     */
+    @Test
+    void testArgumentNameWithRegexMetacharactersLeavesOtherPlaceholdersIntact() {
+        String rendered = converter.renderTemplate("Review {{code}} focusing on {{focus_area}}.",
+                Map.of(".*", "INJECTED"));
+
+        Assertions.assertEquals("Review {{code}} focusing on {{focus_area}}.", rendered);
+    }
+
+    /**
+     * An argument name that is not a valid regular expression must not reach a Pattern, so that
+     * it cannot fail the render with a PatternSyntaxException.
+     */
+    @Test
+    void testArgumentNameThatIsNotValidRegexDoesNotFailTheRender() {
+        String rendered = converter.renderTemplate("Write in a {{tone}} tone.",
+                Map.of("a)(b", "x"));
+
+        Assertions.assertEquals("Write in a {{tone}} tone.", rendered);
+    }
+
     @Test
     void testConditionalBlockStillWorks() {
         Assertions.assertEquals("Hello Alice",
